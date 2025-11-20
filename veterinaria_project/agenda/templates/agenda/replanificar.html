@@ -1,0 +1,65 @@
+{% extends 'agenda/base.html' %}
+
+{% block content %}
+
+<h2 style="color: #d9534f;">⚠ Alertas: Citas Canceladas / Por Replanificar</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div style="padding: 10px; margin-bottom: 20px; border: 1px solid #faebcc; border-radius: 4px; background-color: #fcf8e3; color: #8a6d3b;">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead style="background: #d9534f; color: white;"> <tr>
+            <th style="padding: 10px;">Paciente</th>
+            <th style="padding: 10px;">Dueño / Contacto</th>
+            <th style="padding: 10px;">Motivo / Estado</th>
+            <th style="padding: 10px;">Fecha Original</th>
+            <th style="padding: 10px;">Acción</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for cita in citas %}
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px;">
+                <strong>{{ cita.paciente.nombre }}</strong><br>
+                {{ cita.paciente.especie }}
+            </td>
+
+            <td style="padding: 10px;">
+                {{ cita.paciente.dueno.nombre }}<br>
+                📞 <strong>{{ cita.paciente.dueno.telefono }}</strong>
+            </td>
+
+            <td style="padding: 10px; color: #d9534f;">
+                <strong>Cancelada por Veterinario</strong><br>
+                <small>Contactar urgente</small>
+            </td>
+
+            <td style="padding: 10px;">
+                {{ cita.fecha|date:"d/m/Y" }} - {{ cita.hora|time:"H:i" }}
+            </td>
+
+            <td style="padding: 10px;">
+                <a href="{% url 'reagendar_cita' cita.id %}" 
+                   style="background: #337ab7; color: white; padding: 6px 10px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">
+                   🔄 Reagendar
+                </a>
+            </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="5" style="text-align:center; padding: 15px;">
+                No hay citas pendientes de replanificación.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

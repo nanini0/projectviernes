@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Veterinaria Pochita S.A.</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
+        .container { width: 90%; max-width: 1000px; margin: 20px auto; background: white; padding: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .nav { margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .nav a { text-decoration: none; color: #333; margin-right: 15px; font-weight: bold; }
+        .nav a:hover { color: #007bff; }
+        .btn { padding: 8px 12px; text-decoration: none; border-radius: 4px; font-size: 14px; color: white; border: none; cursor: pointer; }
+        .btn-danger { background-color: #d9534f; }
+        .btn-primary { background-color: #337ab7; }
+        .btn-success { background-color: #5cb85c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <span style="font-size: 1.2em; margin-right: 20px;">🐶 Pochita S.A.</span>
+            <a href="{% url 'panel_recepcion' %}">📋 Panel Principal</a>
+            <a href="{% url 'lista_replanificacion' %}">📅 Replanificación (Alertas)</a>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

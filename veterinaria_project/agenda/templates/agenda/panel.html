@@ -1,0 +1,72 @@
+{% extends 'agenda/base.html' %}
+
+{% block content %}
+
+<h2>Panel de Recepción - Citas Activas</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div style="padding: 10px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; background-color: #dff0d8; color: #3c763d;">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead style="background: #337ab7; color: white;"> <tr>
+            <th style="padding: 10px;">Hora</th>
+            <th style="padding: 10px;">Paciente</th>
+            <th style="padding: 10px;">Dueño</th>
+            <th style="padding: 10px;">Veterinario</th>
+            <th style="padding: 10px;">Estado</th>
+            <th style="padding: 10px;">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for cita in citas %}
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px;">
+                {{ cita.fecha|date:"d/m" }} <br>
+                <strong>{{ cita.hora|time:"H:i" }}</strong>
+            </td>
+            
+            <td style="padding: 10px;">
+                <strong>{{ cita.paciente.nombre }}</strong><br>
+                <span style="font-size: 0.9em; color: #666;">{{ cita.paciente.especie }}</span>
+            </td>
+
+            <td style="padding: 10px;">
+                {{ cita.paciente.dueno.nombre }}
+            </td>
+
+            <td style="padding: 10px;">
+                Dr/a. {{ cita.veterinario.nombre }}
+            </td>
+
+            <td style="padding: 10px;">
+                <span style="background: #5cb85c; color: white; padding: 3px 8px; border-radius: 3px; font-size: 0.8em;">
+                    {{ cita.estado }}
+                </span>
+            </td>
+
+            <td style="padding: 10px;">
+                <a href="{% url 'cancelar_cita' cita.id %}" 
+                   style="background: #d9534f; color: white; padding: 6px 10px; text-decoration: none; border-radius: 4px; font-size: 0.9em;"
+                   onclick="return confirm('¿Está seguro que el Veterinario desea cancelar esta cita? Esto generará una alerta.')">
+                   Cancelar (Vet)
+                </a>
+            </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="6" style="text-align:center; padding: 15px;">
+                No hay citas activas programadas.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'agenda/base.html' %}
+
+{% block content %}
+
+<h2>🔄 Reagendar Cita</h2>
+<p>Estás modificando la cita para el paciente: <strong>{{ cita.paciente.nombre }}</strong></p>
+
+<div style="background: #f8f9fa; padding: 20px; border: 1px solid #ddd; border-radius: 5px; max-width: 500px;">
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nueva Fecha:</label>
+            {{ form.fecha }}
+            <style> input[type='date'], input[type='time'] { padding: 8px; width: 100%; box-sizing: border-box; } </style>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nueva Hora:</label>
+            {{ form.hora }}
+        </div>
+
+        <div style="margin-top: 20px; text-align: right;">
+            <a href="{% url 'lista_replanificacion' %}" style="color: #666; text-decoration: none; margin-right: 15px;">Cancelar</a>
+            
+            <button type="submit" style="background: #5cb85c; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                Confirmar Nueva Fecha
+            </button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
