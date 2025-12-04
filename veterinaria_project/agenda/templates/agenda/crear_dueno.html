@@ -1,0 +1,70 @@
+{% extends 'agenda/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Registrar Nuevo Dueño</h4>
+            </div>
+            
+            <div class="card-body p-4">
+                <p class="text-muted mb-4">
+                    Ingrese los datos de contacto del propietario para registrarlo en el sistema.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3 form-style">
+                        {{ form.as_p }}
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'lista_duenos' %}" class="btn btn-outline-secondary me-md-2">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success px-4">
+                            Guardar Dueño
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .form-style p {
+        margin-bottom: 1rem;
+    }
+    .form-style label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .form-style input[type="text"],
+    .form-style input[type="email"],
+    .form-style input[type="number"],
+    .form-style input[type="tel"] {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .form-style input:focus {
+        border-color: #06224d;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+    }
+</style>
+{% endblock %}

@@ -1,8 +1,5 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
-
 class Veterinario(models.Model):
     nombre = models.CharField(max_length=100)
     especialidad = models.CharField(max_length=100, default="General")
@@ -31,7 +28,8 @@ class Cita(models.Model):
     ESTADOS = [
         ('PENDIENTE', 'Pendiente'),
         ('REALIZADA', 'Realizada'),
-        ('CANCELADA_VET', 'Cancelada por Veterinario'),
+        ('CANCELADA_VET', 'Cancelada por Veterinario'), # Para HU005/HU006
+        ('CANCELADA_CLIENTE', 'Cancelada por Cliente'), # Para HU004
     ]
 
     veterinario = models.ForeignKey(Veterinario, on_delete=models.CASCADE)

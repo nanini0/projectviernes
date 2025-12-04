@@ -1,0 +1,60 @@
+{% extends 'agenda/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h4 class="m-0 text-primary">Cartera de Clientes (Dueños)</h4>
+                <a href="{% url 'crear_dueno' %}" class="btn btn-success btn-sm">
+                    + Nuevo Dueño
+                </a>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-dark text-center">
+                            <tr>
+                                <th class="py-3">Nombre Completo</th>
+                                <th class="py-3">Teléfono</th>
+                                <th class="py-3">Correo Electrónico</th>
+                                <th class="py-3" style="width: 15%;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            {% for dueno in duenos %}
+                            <tr>
+                                <td class="px-4 fw-bold text-secondary">{{ dueno.nombre }}</td>
+                                <td class="text-center">{{ dueno.telefono }}</td>
+                                <td class="text-center">{{ dueno.email }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'eliminar_dueno' dueno.id %}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('ATENCIÓN: \n¿Está seguro de eliminar a {{ dueno.nombre }}?\n\nEsto eliminará también a TODAS sus mascotas y el historial de citas.');">
+                                       Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <p class="h5">No hay dueños registrados en el sistema.</p>
+                                    <p class="small">Utilice el botón "+ Nuevo Dueño" para comenzar.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card-footer bg-light text-end text-muted small">
+                Total registrados: {{ duenos|length }}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'agenda/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-12">
+            <h2 class="text-primary border-bottom pb-2">Agendar Atención</h2>
+            <p class="text-muted">Complete el formulario para reservar un nuevo bloque de atención.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 card-title">Nueva Reserva</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            {{ form.as_p }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                Confirmar Cita
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0 card-title">Horas No Disponibles</h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        {% for c in citas_ocupadas %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>{{ c.fecha|date:"d/m/Y" }}</strong> - {{ c.hora|time:"H:i" }} hrs
+                                </span>
+                                <span class="badge bg-info text-dark">
+                                    Dr. {{ c.veterinario.nombre }}
+                                </span>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item text-center text-muted fst-italic p-4">
+                                No hay horas ocupadas registradas recientemente.
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-footer text-muted small">
+                    * Revise esta lista antes de asignar una hora para evitar duplicidad.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Hace que los inputs y selects ocupen el 100% del ancho de su contenedor */
+    form p {
+        margin-bottom: 1rem;
+    }
+    form input[type="text"],
+    form input[type="date"],
+    form input[type="time"],
+    form select,
+    form textarea {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+    form label {
+        font-weight: bold;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}

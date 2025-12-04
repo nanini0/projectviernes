@@ -1,65 +1,88 @@
 {% extends 'agenda/base.html' %}
 
 {% block content %}
+<div class="row">
+    <div class="col-12">
+        
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">⚠ Alertas: Citas Canceladas / Por Replanificar</h4>
+                <small>Prioridad Alta</small>
+            </div>
+            
+            <div class="card-body p-0">
+                
+                {% if messages %}
+                    <div class="p-3">
+                        {% for message in messages %}
+                            <div class="alert alert-warning border-warning mb-2 d-flex align-items-center">
+                                <span class="me-2">📢</span> {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-<h2 style="color: #d9534f;">⚠ Alertas: Citas Canceladas / Por Replanificar</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light text-danger">
+                            <tr>
+                                <th class="py-3 ps-4">Paciente</th>
+                                <th class="py-3">Dueño / Contacto</th>
+                                <th class="py-3">Motivo / Estado</th>
+                                <th class="py-3">Fecha Original</th>
+                                <th class="py-3 text-end pe-4">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cita in citas %}
+                            <tr>
+                                <td class="ps-4">
+                                    <strong class="text-dark">{{ cita.paciente.nombre }}</strong><br>
+                                    <span class="badge bg-light text-secondary border">
+                                        {{ cita.paciente.especie }}
+                                    </span>
+                                </td>
 
-{% if messages %}
-    {% for message in messages %}
-        <div style="padding: 10px; margin-bottom: 20px; border: 1px solid #faebcc; border-radius: 4px; background-color: #fcf8e3; color: #8a6d3b;">
-            {{ message }}
+                                <td>
+                                    {{ cita.paciente.dueno.nombre }}<br>
+                                    <a href="tel:{{ cita.paciente.dueno.telefono }}" class="text-decoration-none text-dark">
+                                        📞 <strong>{{ cita.paciente.dueno.telefono }}</strong>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-danger">Cancelada por Veterinario</span><br>
+                                    <small class="text-danger fw-bold">Contactar urgente</small>
+                                </td>
+
+                                <td class="text-muted">
+                                    {{ cita.fecha|date:"d/m/Y" }}<br>
+                                    {{ cita.hora|time:"H:i" }} hrs
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <a href="{% url 'reagendar_cita' cita.id %}" class="btn btn-primary btn-sm shadow-sm">
+                                        🔄 Reagendar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <h5 class="mb-1">✅ Todo al día</h5>
+                                    <p class="small">No hay citas pendientes de replanificación.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-light text-muted small text-center">
+                Gestione estas citas lo antes posible para mantener la agenda ordenada.
+            </div>
         </div>
-    {% endfor %}
-{% endif %}
 
-<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-    <thead style="background: #d9534f; color: white;"> <tr>
-            <th style="padding: 10px;">Paciente</th>
-            <th style="padding: 10px;">Dueño / Contacto</th>
-            <th style="padding: 10px;">Motivo / Estado</th>
-            <th style="padding: 10px;">Fecha Original</th>
-            <th style="padding: 10px;">Acción</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for cita in citas %}
-        <tr style="border-bottom: 1px solid #ddd;">
-            <td style="padding: 10px;">
-                <strong>{{ cita.paciente.nombre }}</strong><br>
-                {{ cita.paciente.especie }}
-            </td>
-
-            <td style="padding: 10px;">
-                {{ cita.paciente.dueno.nombre }}<br>
-                📞 <strong>{{ cita.paciente.dueno.telefono }}</strong>
-            </td>
-
-            <td style="padding: 10px; color: #d9534f;">
-                <strong>Cancelada por Veterinario</strong><br>
-                <small>Contactar urgente</small>
-            </td>
-
-            <td style="padding: 10px;">
-                {{ cita.fecha|date:"d/m/Y" }} - {{ cita.hora|time:"H:i" }}
-            </td>
-
-            <td style="padding: 10px;">
-                <a href="{% url 'reagendar_cita' cita.id %}" 
-                   style="background: #337ab7; color: white; padding: 6px 10px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">
-                   🔄 Reagendar
-                </a>
-            </td>
-        </tr>
-
-        {% empty %}
-        <tr>
-            <td colspan="5" style="text-align:center; padding: 15px;">
-                No hay citas pendientes de replanificación.
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+    </div>
+</div>
 {% endblock %}
